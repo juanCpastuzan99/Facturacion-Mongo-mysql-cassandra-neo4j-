@@ -46,6 +46,26 @@ Si te saltas estos dos pasos, los `.bat` te lo dirán con un error claro.
 - **`run.bat`** → asegura que los contenedores estén arriba y arranca Flask.
 - **`stop.bat`** → detiene los contenedores Docker (NO toca tu MySQL local).
 
+### 🔑 Credenciales y puertos por defecto
+
+Todas configuradas en el archivo [`.env`](.env). Si necesitas conectarte
+manualmente desde un cliente (HeidiSQL, Neo4j Browser, MongoDB Compass, etc.):
+
+| Motor | Host | Puerto | Usuario | Contraseña | Base / Keyspace |
+|-------|------|--------|---------|------------|------------------|
+| **Cassandra** | `localhost` | `9042` | *(sin auth)* | *(sin auth)* | `billing` |
+| **MongoDB** | `localhost` | `27017` | *(sin auth)* | *(sin auth)* | `billing` (colección `products`) |
+| **MySQL** | `localhost` | `3306` | `root` | `root` | `billing` (tablas `factura`, `detalle_factura`) |
+| **Neo4j** | `localhost` | `7687` (bolt) · `7474` (UI web) | `neo4j` | `neo4j12345` | *(default)* |
+| **Flask app** | `localhost` | `8000` | — | — | — |
+
+URLs útiles cuando la app esté corriendo:
+
+- 🌐 App web: <http://localhost:8000>
+- 🟢 Neo4j Browser: <http://localhost:7474> *(connect URL: `bolt://localhost:7687`)*
+
+Para cambiar cualquier credencial, edita el `.env` y reinicia la app.
+
 ---
 
 Aplicación web de facturación construida sobre **arquitectura hexagonal**
