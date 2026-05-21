@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Recomendaciones{% endblock %}
+
+{% block content %}
+<h2>
+  <i class="bi bi-stars text-danger"></i> Motor de recomendaciones
+  <small class="text-muted">(Neo4j)</small>
+</h2>
+<p class="text-muted">
+  Sugiere productos basándose en compras de clientes con el mismo barrio,
+  género, estrato y municipio, más similitud por categoría/tags y popularidad geográfica.
+</p>
+
+<form method="post" class="card p-3 shadow-sm bg-white mb-4">
+  <div class="row g-2 align-items-end">
+    <div class="col-md-9">
+      <label class="form-label">Cliente</label>
+      <select name="client_document" class="form-select" required>
+        <option value="">— Seleccione —</option>
+        {% for c in clients %}
+          <option value="{{ c.document }}" {% if selected == c.document %}selected{% endif %}>
+            {{ c.full_name }} ({{ c.document }}) ·
+            {{ c.neighborhood }}/{{ c.municipality }} · estrato {{ c.stratum }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-danger w-100">
+        <i class="bi bi-magic"></i> Recomendar
+      </button>
+    </div>
+  </div>
+</form>
+
+{% if client %}
+  <div class="alert alert-secondary">
+    <i class="bi bi-info-circle"></i>
+    Recomendaciones para <strong>{{ client.full_name }}</strong> —
+    barrio <em>{{ client.neighborhood }}</em>,
+    estrato <em>{{ client.stratum }}</em>, género <em>{{ client.gender }}</em>.
+  </div>
+{% endif %}
+
+{% if recommendations %}
+  <div class="row g-3">
+    {% for r in recommendations %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100 border-danger-subtle">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="card-title">{{ r.name }}</h5>
+              <span class="badge bg-danger">{{ r.score }}</span>
+            </div>
+            <p class="mb-1"><strong>${{ '%.2f'|format(r.price) }}</strong></p>
+            <p class="small text-muted mb-0">SKU: <code>{{ r.sku }}</code></p>
+            <hr>
+            <p class="small mb-0">
+              <i class="bi bi-lightbulb text-warning"></i> {{ r.reason }}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

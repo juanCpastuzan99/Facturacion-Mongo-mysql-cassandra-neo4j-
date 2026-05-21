@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Nueva factura{% endblock %}
+
+{% block content %}
+<h2><i class="bi bi-plus-square"></i> Nueva factura</h2>
+
+<form method="post" class="card p-4 shadow-sm bg-white" id="invoice-form">
+  <div class="row g-3 mb-3">
+    <div class="col-md-4">
+      <label class="form-label">Cliente</label>
+      <select class="form-select" name="client_document" required>
+        <option value="">— Seleccione —</option>
+        {% for c in clients %}
+          <option value="{{ c.document }}">
+            {{ c.full_name }} ({{ c.document }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Empleado</label>
+      <select class="form-select" name="employee_document" required>
+        <option value="">— Seleccione —</option>
+        {% for e in employees %}
+          <option value="{{ e.document }}">
+            {{ e.full_name }} ({{ e.document }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Método de pago</label>
+      <select class="form-select" name="payment_method" required>
+        <option value="CASH">Efectivo</option>
+        <option value="CARD">Tarjeta</option>
+        <option value="TRANSFER">Transferencia</option>
+      </select>
+    </div>
+  </div>
+
+  <h5 class="mt-2">Productos</h5>
+  <table class="table" id="items-table">
+    <thead>
+      <tr>
+        <th style="width:65%">Producto</th>
+        <th style="width:25%">Cantidad</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <select class="form-select" name="sku">
+            <option value="">— Seleccione —</option>
+            {% for p in products %}
+              <option value="{{ p.sku }}">
+                {{ p.name }} · ${{ '%.2f'|format(p.price) }} (stock: {{ p.stock }})
+              </option>
+            {% endfor %}
+          </select>
+        </td>
+        <td><input type="number" name="quantity" min="1" value="1" class="form-control"></td>
+        <td><button type="button" class="btn btn-outline-danger btn-remove">
+          <i class="bi bi-x"></i>
+        </button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="mb-3">
+    <button type="button" class="btn btn-outline-primary btn-sm" id="add-row">
+      <i class="bi bi-plus-lg"></i> Añadir línea
+    </button>
+  </div>
+
+  <div class="d-flex justify-content-end gap-2">
+    <a class="btn btn-secondary" href="{{ url_for('invoices.index') }}">Cancelar</a>
+    <button class="btn btn-primary"><i class="bi bi-check2-circle"></i> Emitir factura</button>
+  </div>
+</form>
+
+<script>
+  const tbody = document.querySelector('#items-table tbody');
+  document.getElementById('add-row').addEventListener('click', () => {
+    const tpl = tbody.querySelector('tr').cloneNode(true);
+    tpl.querySelector('select').selectedIndex = 0;
+    tpl.querySelector('input').value = 1;
+    tbody.appendChild(tpl);
+  });
+  tbody.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-remove');
+    if (btn && tbody.querySelectorAll('tr').length > 1) {
+      btn.closest('tr').remove();
+    }
+  });
+</script>
+{% endblock %}

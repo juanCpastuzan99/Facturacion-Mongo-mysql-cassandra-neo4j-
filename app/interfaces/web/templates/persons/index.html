@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Personas{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2><i class="bi bi-people"></i> Personas <small class="text-muted">(Cassandra)</small></h2>
+  <a href="{{ url_for('persons.create') }}" class="btn btn-primary">
+    <i class="bi bi-plus-lg"></i> Nueva persona
+  </a>
+</div>
+
+<div class="btn-group mb-3">
+  <a class="btn btn-outline-secondary {{ 'active' if not role else '' }}"
+     href="{{ url_for('persons.index') }}">Todas</a>
+  <a class="btn btn-outline-secondary {{ 'active' if role == 'CLIENT' else '' }}"
+     href="{{ url_for('persons.index', role='CLIENT') }}">Clientes</a>
+  <a class="btn btn-outline-secondary {{ 'active' if role == 'EMPLOYEE' else '' }}"
+     href="{{ url_for('persons.index', role='EMPLOYEE') }}">Empleados</a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Documento</th>
+          <th>Nombre</th>
+          <th>Rol</th>
+          <th>Email</th>
+          <th>Barrio / Municipio</th>
+          <th>Estrato</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in persons %}
+          <tr>
+            <td><code>{{ p.document }}</code></td>
+            <td>{{ p.full_name }}</td>
+            <td>
+              {% if p.role == 'CLIENT' %}
+                <span class="badge bg-primary">Cliente</span>
+              {% else %}
+                <span class="badge bg-success">Empleado</span>
+              {% endif %}
+            </td>
+            <td>{{ p.email }}</td>
+            <td>{{ p.neighborhood }} · {{ p.municipality }}</td>
+            <td>{{ p.stratum }}</td>
+            <td class="text-end">
+              <a class="btn btn-sm btn-outline-secondary"
+                 href="{{ url_for('persons.edit', document=p.document) }}">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <form method="post" action="{{ url_for('persons.delete', document=p.document) }}"
+                    class="d-inline" onsubmit="return confirm('¿Eliminar persona?');">
+                <button class="btn btn-sm btn-outline-danger">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="7" class="text-center text-muted py-4">Sin registros.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

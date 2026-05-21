@@ -1,0 +1,43 @@
+================================================================
+  POLYBILLING - LEEME ANTES DE EJECUTAR
+================================================================
+
+REQUISITOS (instalar UNA sola vez):
+
+  [1] Python 3.12      https://www.python.org/downloads/release/python-3120/
+                       Al instalar, marcar "Add Python to PATH"
+
+  [2] Docker Desktop   https://www.docker.com/products/docker-desktop/
+
+  [3] MySQL local (cualquiera):
+       - Laragon       https://laragon.org/download/   <- el mas facil
+       - MySQL 8       https://dev.mysql.com/downloads/installer/
+       - XAMPP         https://www.apachefriends.org/
+
+================================================================
+  ANTES DE EJECUTAR LOS .BAT (CADA VEZ):
+================================================================
+
+  [1] Abre Docker Desktop
+      Espera a que la ballena este FIJA y diga "Engine running"
+      (10-20 segundos)
+
+  [2] Abre Laragon (o tu MySQL)
+      Clic en "Start All"
+      (5 segundos)
+
+  [3] Verifica que el panel de Docker Desktop NO tenga errores
+
+================================================================
+  COMO EJECUTAR:
+================================================================
+
+  PRIMERA VEZ:   doble clic en   setup.bat    (~3 minutos)
+  DESPUES:       doble clic en   run.bat      (cada vez)
+  PARAR:         doble clic en   stop.bat     (al terminar)
+
+  La app queda en:  http://localhost:8000
+
+================================================================
+  SI ALGO FALLA, ABRE README.md (tiene mas detalle)
+================================================================

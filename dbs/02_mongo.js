@@ -1,0 +1,89 @@
+// =====================================================================
+// MongoDB - Catálogo de productos
+// Ejecutar con:  mongosh < dbs/02_mongo.js
+// =====================================================================
+
+use('billing');
+
+db.products.drop();
+
+db.products.createIndex({ sku: 1 }, { unique: true });
+db.products.createIndex({ category: 1 });
+db.products.createIndex({ tags: 1 });
+
+db.products.insertMany([
+  {
+    sku: 'P-001', name: 'Laptop Lenovo IdeaPad 3',
+    description: 'Laptop Intel i5, 8GB RAM, 512GB SSD',
+    category: 'Electrónica', price: 2500000, stock: 12, brand: 'Lenovo',
+    tags: ['portátil','oficina','estudio'], image_url: null
+  },
+  {
+    sku: 'P-002', name: 'Mouse inalámbrico Logitech M170',
+    description: 'Receptor USB nano, batería 12 meses',
+    category: 'Electrónica', price: 55000, stock: 80, brand: 'Logitech',
+    tags: ['accesorio','oficina','inalámbrico'], image_url: null
+  },
+  {
+    sku: 'P-003', name: 'Teclado mecánico Redragon Kumara',
+    description: 'Switches azules, retroiluminación RGB',
+    category: 'Electrónica', price: 230000, stock: 25, brand: 'Redragon',
+    tags: ['gaming','accesorio'], image_url: null
+  },
+  {
+    sku: 'P-004', name: 'Monitor LG 24" Full HD',
+    description: 'Panel IPS, 75Hz, HDMI/VGA',
+    category: 'Electrónica', price: 720000, stock: 18, brand: 'LG',
+    tags: ['oficina','estudio'], image_url: null
+  },
+  {
+    sku: 'P-005', name: 'Smartphone Samsung Galaxy A15',
+    description: '6GB RAM, 128GB, cámara 50MP',
+    category: 'Electrónica', price: 850000, stock: 30, brand: 'Samsung',
+    tags: ['móvil','android'], image_url: null
+  },
+  {
+    sku: 'L-001', name: 'Libro: Clean Architecture',
+    description: 'Robert C. Martin · Buenas prácticas de software',
+    category: 'Libros', price: 120000, stock: 40, brand: 'Pearson',
+    tags: ['software','arquitectura','clásico'], image_url: null
+  },
+  {
+    sku: 'L-002', name: 'Libro: Diseño en Patrones',
+    description: 'GoF · Patrones de diseño orientado a objetos',
+    category: 'Libros', price: 130000, stock: 35, brand: 'Pearson',
+    tags: ['software','patrones'], image_url: null
+  },
+  {
+    sku: 'L-003', name: 'Libro: 100 años de soledad',
+    description: 'Gabriel García Márquez · Realismo mágico',
+    category: 'Libros', price: 60000, stock: 50, brand: 'Sudamericana',
+    tags: ['novela','clásico','colombia'], image_url: null
+  },
+  {
+    sku: 'H-001', name: 'Cafetera Oster 12 tazas',
+    description: 'Jarra de vidrio, filtro permanente',
+    category: 'Hogar', price: 180000, stock: 22, brand: 'Oster',
+    tags: ['cocina','desayuno'], image_url: null
+  },
+  {
+    sku: 'H-002', name: 'Licuadora Oster Clásica',
+    description: '600W, vaso de vidrio, 3 velocidades',
+    category: 'Hogar', price: 250000, stock: 15, brand: 'Oster',
+    tags: ['cocina','clásico'], image_url: null
+  },
+  {
+    sku: 'R-001', name: 'Camiseta Nike Dri-FIT',
+    description: 'Tela transpirable, talla M',
+    category: 'Ropa', price: 95000, stock: 60, brand: 'Nike',
+    tags: ['deporte','running'], image_url: null
+  },
+  {
+    sku: 'R-002', name: 'Tenis Adidas Runfalcon',
+    description: 'Para correr, talla 41',
+    category: 'Ropa', price: 280000, stock: 25, brand: 'Adidas',
+    tags: ['deporte','running','tenis'], image_url: null
+  }
+]);
+
+print('Productos insertados: ' + db.products.countDocuments());

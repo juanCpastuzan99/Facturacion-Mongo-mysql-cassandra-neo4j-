@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Polybilling · Inicio{% endblock %}
+
+{% block content %}
+<div class="p-5 bg-white rounded-3 shadow-sm mb-4">
+  <h1 class="display-5 fw-bold">
+    <i class="bi bi-database-fill-gear text-primary"></i> Polybilling
+  </h1>
+  <p class="lead">
+    Sistema de facturación políglota con arquitectura hexagonal.
+    Combina <strong>cuatro</strong> motores de persistencia, cada uno usado donde mejor encaja.
+  </p>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-6 col-lg-3">
+    <div class="card border-info h-100">
+      <div class="card-body">
+        <h5 class="card-title text-info">
+          <i class="bi bi-people"></i> Cassandra
+        </h5>
+        <p class="card-text">
+          Almacena <strong>personas</strong> (clientes y empleados).
+          Modelo distribuido y escalable horizontalmente.
+        </p>
+        <a href="{{ url_for('persons.index') }}" class="btn btn-outline-info btn-sm">
+          Ir a personas →
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="card border-success h-100">
+      <div class="card-body">
+        <h5 class="card-title text-success">
+          <i class="bi bi-box-seam"></i> MongoDB
+        </h5>
+        <p class="card-text">
+          Catálogo de <strong>productos</strong> con esquema flexible
+          (tags variables por categoría).
+        </p>
+        <a href="{{ url_for('products.index') }}" class="btn btn-outline-success btn-sm">
+          Ir a productos →
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="card border-warning h-100">
+      <div class="card-body">
+        <h5 class="card-title text-warning">
+          <i class="bi bi-file-earmark-text"></i> MySQL
+        </h5>
+        <p class="card-text">
+          <strong>Factura</strong> y <strong>detalle_factura</strong>
+          con integridad transaccional ACID.
+        </p>
+        <a href="{{ url_for('invoices.index') }}" class="btn btn-outline-warning btn-sm">
+          Ir a facturas →
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="card border-danger h-100">
+      <div class="card-body">
+        <h5 class="card-title text-danger">
+          <i class="bi bi-stars"></i> Neo4j
+        </h5>
+        <p class="card-text">
+          <strong>Recomendaciones</strong> basadas en barrio, estrato,
+          género y compras de clientes similares.
+        </p>
+        <a href="{{ url_for('recommendations.index') }}" class="btn btn-outline-danger btn-sm">
+          Recomendar →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-5 p-4 bg-white rounded-3 shadow-sm">
+  <h4><i class="bi bi-diagram-3"></i> Arquitectura Hexagonal</h4>
+  <pre class="mb-0"><code>app/
+├── domain/           # entidades + puertos (interfaces)
+├── application/      # casos de uso (orquestación)
+├── infrastructure/   # adaptadores Cassandra/Mongo/MySQL/Neo4j
+└── interfaces/web/   # Flask · blueprints · templates</code></pre>
+</div>
+{% endblock %}
